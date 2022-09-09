@@ -43,6 +43,7 @@ export default {
       default: () => ({
         useUrlFragment: true,
         defaultTabHash: null,
+        id: ''
       }),
     },
     wrapperClass: {
@@ -161,7 +162,7 @@ export default {
         return;
       }
 
-      const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
+      const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}${props.options.id}`;
       const previousSelectedTabHash = expiringStorage.get(storageKey);
 
       if (findTab(previousSelectedTabHash)) {
