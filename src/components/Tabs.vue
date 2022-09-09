@@ -29,7 +29,7 @@
 
 <script>
 import expiringStorage from '../expiringStorage';
-import {reactive, provide, onMounted, toRefs} from 'vue';
+import {reactive, provide, onMounted, toRefs, computed} from 'vue';
 
 export default {
   props: {
@@ -96,6 +96,8 @@ export default {
       tabs: []
     })
 
+    const compTabsId = computed(() => props.tabsId)
+
     provide('tabsProvider', state)
 
     provide('addTab', (tab) => {
@@ -146,7 +148,7 @@ export default {
       state.lastActiveTabHash = state.activeTabHash = selectedTab.hash;
 
       const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
-      expiringStorage.set(storageKey + props.tabsId, selectedTab.hash, props.cacheLifetime);
+      expiringStorage.set(storageKey + compTabsId.value, selectedTab.hash, props.cacheLifetime);
     }
 
     const findTab = (hash) => {
@@ -166,7 +168,7 @@ export default {
       }
 
       const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
-      const previousSelectedTabHash = expiringStorage.get(storageKey + props.tabsId);
+      const previousSelectedTabHash = expiringStorage.get(storageKey + compTabsId.value);
 
       if (findTab(previousSelectedTabHash)) {
         selectTab(previousSelectedTabHash);

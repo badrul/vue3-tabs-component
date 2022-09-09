@@ -1,4 +1,4 @@
-import { ref, inject, watch, onBeforeMount, onBeforeUnmount, withDirectives, openBlock, createElementBlock, normalizeClass, renderSlot, vShow, reactive, provide, onMounted, toRefs, createElementVNode, Fragment, renderList } from "vue";
+import { ref, inject, watch, onBeforeMount, onBeforeUnmount, withDirectives, openBlock, createElementBlock, normalizeClass, renderSlot, vShow, reactive, computed, provide, onMounted, toRefs, createElementVNode, Fragment, renderList } from "vue";
 var _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
@@ -179,6 +179,7 @@ const _sfc_main = {
       lastActiveTabHash: "",
       tabs: []
     });
+    const compTabsId = computed(() => props.tabsId);
     provide("tabsProvider", state);
     provide("addTab", (tab) => {
       state.tabs.push(tab);
@@ -214,7 +215,7 @@ const _sfc_main = {
       context.emit("changed", { tab: selectedTab });
       state.lastActiveTabHash = state.activeTabHash = selectedTab.hash;
       const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
-      expiringStorage.set(storageKey + props.tabsId, selectedTab.hash, props.cacheLifetime);
+      expiringStorage.set(storageKey + compTabsId.value, selectedTab.hash, props.cacheLifetime);
     };
     const findTab = (hash) => {
       return state.tabs.find((tab) => tab.hash === hash);
@@ -229,7 +230,7 @@ const _sfc_main = {
         return;
       }
       const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
-      const previousSelectedTabHash = expiringStorage.get(storageKey + props.tabsId);
+      const previousSelectedTabHash = expiringStorage.get(storageKey + compTabsId.value);
       if (findTab(previousSelectedTabHash)) {
         selectTab(previousSelectedTabHash);
         return;
