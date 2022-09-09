@@ -37,13 +37,16 @@ export default {
       type: Number,
       default: 5,
     },
+    tabsId: {
+      type: String,
+      default: ''
+    },
     options: {
       type: Object,
       required: false,
       default: () => ({
         useUrlFragment: true,
-        defaultTabHash: null,
-        id: ''
+        defaultTabHash: null
       }),
     },
     wrapperClass: {
@@ -142,8 +145,8 @@ export default {
 
       state.lastActiveTabHash = state.activeTabHash = selectedTab.hash;
 
-      const storageKey = `vue-tabs-component.cache.${props.options.id}${window.location.host}${window.location.pathname}`;
-      expiringStorage.set(storageKey, selectedTab.hash, props.cacheLifetime);
+      const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
+      expiringStorage.set(storageKey + props.tabsId, selectedTab.hash, props.cacheLifetime);
     }
 
     const findTab = (hash) => {
@@ -162,8 +165,8 @@ export default {
         return;
       }
 
-      const storageKey = `vue-tabs-component.cache.${props.options.id}${window.location.host}${window.location.pathname}`;
-      const previousSelectedTabHash = expiringStorage.get(storageKey);
+      const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
+      const previousSelectedTabHash = expiringStorage.get(storageKey + props.tabsId);
 
       if (findTab(previousSelectedTabHash)) {
         selectTab(previousSelectedTabHash);
