@@ -1,4 +1,4 @@
-import { ref, inject, watch, onBeforeMount, onBeforeUnmount, withDirectives, openBlock, createElementBlock, normalizeClass, renderSlot, vShow, reactive, computed, provide, onMounted, toRefs, createElementVNode, Fragment, renderList } from "vue";
+import { ref, inject, watch, onBeforeMount, onBeforeUnmount, withDirectives, openBlock, createElementBlock, normalizeClass, renderSlot, vShow, reactive, provide, onMounted, toRefs, createElementVNode, Fragment, renderList } from "vue";
 var _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
@@ -179,7 +179,6 @@ const _sfc_main = {
       lastActiveTabHash: "",
       tabs: []
     });
-    const compTabsId = computed(() => props.tabsId);
     provide("tabsProvider", state);
     provide("addTab", (tab) => {
       state.tabs.push(tab);
@@ -214,8 +213,8 @@ const _sfc_main = {
       });
       context.emit("changed", { tab: selectedTab });
       state.lastActiveTabHash = state.activeTabHash = selectedTab.hash;
-      const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
-      expiringStorage.set(storageKey + compTabsId.value, selectedTab.hash, props.cacheLifetime);
+      const storageKey = `vue-tabs-component.cache.${this.tabsId}${window.location.host}${window.location.pathname}`;
+      expiringStorage.set(storageKey, selectedTab.hash, props.cacheLifetime);
     };
     const findTab = (hash) => {
       return state.tabs.find((tab) => tab.hash === hash);
@@ -229,8 +228,8 @@ const _sfc_main = {
         selectTab(window.location.hash);
         return;
       }
-      const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
-      const previousSelectedTabHash = expiringStorage.get(storageKey + compTabsId.value);
+      const storageKey = `vue-tabs-component.cache.${this.tabsId}${window.location.host}${window.location.pathname}`;
+      const previousSelectedTabHash = expiringStorage.get(storageKey);
       if (findTab(previousSelectedTabHash)) {
         selectTab(previousSelectedTabHash);
         return;
