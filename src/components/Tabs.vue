@@ -162,7 +162,7 @@ export default {
         return;
       }
 
-      const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}${props.options.id}`;
+      const storageKey = `vue-tabs-component.cache.${props.options.id}${window.location.host}${window.location.pathname}`;
       const previousSelectedTabHash = expiringStorage.get(storageKey);
 
       if (findTab(previousSelectedTabHash)) {
