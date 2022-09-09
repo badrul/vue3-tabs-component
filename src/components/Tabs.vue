@@ -142,7 +142,7 @@ export default {
 
       state.lastActiveTabHash = state.activeTabHash = selectedTab.hash;
 
-      const storageKey = `vue-tabs-component.cache${props.options.id}.${window.location.host}${window.location.pathname}`;
+      const storageKey = `vue-tabs-component.cache.${props.options.id}${window.location.host}${window.location.pathname}`;
       expiringStorage.set(storageKey, selectedTab.hash, props.cacheLifetime);
     }
 
@@ -162,7 +162,7 @@ export default {
         return;
       }
 
-      const storageKey = `vue-tabs-component.cache${props.options.id}.${window.location.host}${window.location.pathname}`;
+      const storageKey = `vue-tabs-component.cache.${props.options.id}${window.location.host}${window.location.pathname}`;
       const previousSelectedTabHash = expiringStorage.get(storageKey);
 
       if (findTab(previousSelectedTabHash)) {
