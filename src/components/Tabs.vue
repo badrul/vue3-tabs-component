@@ -96,7 +96,7 @@ export default {
       tabs: []
     })
 
-    // const compTabsId = computed(() => props.tabsId)
+    const compTabsId = computed(() => props.tabsId)
 
     provide('tabsProvider', state)
 
@@ -147,9 +147,8 @@ export default {
 
       state.lastActiveTabHash = state.activeTabHash = selectedTab.hash;
 
-      const storageKey = `vue-tabs-component.cache.${this.tabsId}${window.location.host}${window.location.pathname}`;
-      // expiringStorage.set(storageKey + this.compTabsId.value, selectedTab.hash, props.cacheLifetime);
-      expiringStorage.set(storageKey, selectedTab.hash, props.cacheLifetime);
+      const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
+      expiringStorage.set(storageKey + this.compTabsId.value, selectedTab.hash, props.cacheLifetime);
     }
 
     const findTab = (hash) => {
@@ -168,8 +167,8 @@ export default {
         return;
       }
 
-      const storageKey = `vue-tabs-component.cache.${this.tabsId}${window.location.host}${window.location.pathname}`;
-      const previousSelectedTabHash = expiringStorage.get(storageKey);
+      const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
+      const previousSelectedTabHash = expiringStorage.get(storageKey + compTabsId.value);
 
       if (findTab(previousSelectedTabHash)) {
         selectTab(previousSelectedTabHash);
