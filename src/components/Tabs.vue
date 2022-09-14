@@ -29,7 +29,7 @@
 
 <script>
 import expiringStorage from '../expiringStorage';
-import {reactive, provide, onMounted, toRefs, computed} from 'vue';
+import {reactive, provide, onMounted, toRefs} from 'vue';
 
 export default {
   props: {
@@ -96,7 +96,8 @@ export default {
       tabs: []
     })
 
-    const compTabsId = computed(() => props.tabsId)
+    // const compTabsId = computed(() => props.tabsId)
+    const compTabsId = props.tabsId ? props.tabsId : ''
 
     provide('tabsProvider', state)
 
