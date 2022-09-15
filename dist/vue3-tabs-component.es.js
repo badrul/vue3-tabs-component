@@ -179,7 +179,6 @@ const _sfc_main = {
       lastActiveTabHash: "",
       tabs: []
     });
-    const compTabsId = props.tabsId ? props.tabsId : "";
     provide("tabsProvider", state);
     provide("addTab", (tab) => {
       state.tabs.push(tab);
@@ -214,8 +213,9 @@ const _sfc_main = {
       });
       context.emit("changed", { tab: selectedTab });
       state.lastActiveTabHash = state.activeTabHash = selectedTab.hash;
+      const compTabsId = props.tabsId ? props.tabsId : "";
       const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
-      expiringStorage.set(storageKey + this.compTabsId.value, selectedTab.hash, props.cacheLifetime);
+      expiringStorage.set(storageKey + compTabsId, selectedTab.hash, props.cacheLifetime);
     };
     const findTab = (hash) => {
       return state.tabs.find((tab) => tab.hash === hash);
@@ -229,8 +229,9 @@ const _sfc_main = {
         selectTab(window.location.hash);
         return;
       }
+      const compTabsId = props.tabsId ? props.tabsId : "";
       const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`;
-      const previousSelectedTabHash = expiringStorage.get(storageKey + compTabsId.value);
+      const previousSelectedTabHash = expiringStorage.get(storageKey + compTabsId);
       if (findTab(previousSelectedTabHash)) {
         selectTab(previousSelectedTabHash);
         return;
