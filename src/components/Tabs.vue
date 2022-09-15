@@ -96,9 +96,6 @@ export default {
       tabs: []
     })
 
-    // const compTabsId = computed(() => props.tabsId)
-    // const compTabsId = props.tabsId ? props.tabsId : ''
-
     provide('tabsProvider', state)
 
     provide('addTab', (tab) => {
